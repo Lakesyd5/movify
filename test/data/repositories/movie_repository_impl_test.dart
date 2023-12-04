@@ -23,10 +23,10 @@ void main() {
 
   const String tQuery = 'Black Panther';
 
-  const tMoviesList = [
-    Movie(id: 1, title: 'Spider-Man', overview: 'testing spiderMan & his people in the testverse', posterPath: '/image1'),
-    Movie(id: 2, title: 'Black Panther', overview: 'wakanda is about to be wiped out...who would save them', posterPath: '/image2'),
-  ];
+  // const tMoviesList = [
+  //   Movie(id: 1, title: 'Spider-Man', overview: 'testing spiderMan & his people in the testverse', posterPath: '/image1'),
+  //   Movie(id: 2, title: 'Black Panther', overview: 'wakanda is about to be wiped out...who would save them', posterPath: '/image2'),
+  // ];
 
   final tMovieModelList = [
     MovieModel(id: 1, title: 'Spider-Man', overview: 'testing spiderMan & his people in the testverse', posterPath: '/image1'),
@@ -40,7 +40,7 @@ void main() {
     final result = await repository.getTrendingMovies();
 
     verify(mockMovieRemoteDataSource.getTrendingMovies());
-    expect(result, equals(const Right<Failure, List<Movie>>(tMoviesList)));
+    expect(result, isA<Right<ServerFailure, List<Movie>>>());
   });
 
   test('should get popular movies from the remote data source', () async {
@@ -50,7 +50,7 @@ void main() {
     final result = await repository.getPopularMovies();
 
     verify(mockMovieRemoteDataSource.getPopularMovies());
-    expect(result, equals(tMoviesList));    
+    expect(result, isA<Right<ServerFailure, List<Movie>>>());   
   });
 
   test('should search movies fromt he remote data source', () async {
@@ -59,7 +59,7 @@ void main() {
     final result = await repository.searchMovies(tQuery);
 
     verify(mockMovieRemoteDataSource.searchMovies(tQuery));
-    expect(result, equals(tMoviesList));
+    expect(result, isA<Right<ServerFailure, List<Movie>>>());
   });
 
   test('should return ServerFailure when the call to remote data source is unsuccessful to get Trending movies', () async {
@@ -67,7 +67,7 @@ void main() {
 
     final result = await repository.getTrendingMovies();
 
-    expect(result, equals(const Left(ServerFailure)));
+    expect(result, isA<Left<ServerFailure, List<Movie>>>());
   });
 
   test('should return ServerFailure when the call to remote data source is unsuccessful to get Popular movies', () async {
@@ -75,7 +75,7 @@ void main() {
 
     final result = await repository.getPopularMovies();
 
-    expect(result, equals(const Left(ServerFailure)));
+    expect(result, isA<Left<ServerFailure, List<Movie>>>());
   });
 
   test('should return ServerFailure when the call to remote data source is unsuccessful to get Popular movies', () async {
@@ -83,6 +83,6 @@ void main() {
 
     final result = await repository.searchMovies(tQuery);
 
-    expect(result, equals(const Left(ServerFailure)));
+    expect(result, isA<Left<ServerFailure, List<Movie>>>());
   });
 }

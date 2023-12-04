@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movify/domain/entities/movie.dart';
@@ -16,17 +17,17 @@ void main() {
 
   const tQuery = 'Inception';
 
-  final allMoviesList = [
+  const allMoviesList = [
     Movie(id: 1, title: 'Spider-Man', overview: 'testing spiderMan & his people in the testverse', posterPath: '/image1'),
     Movie(id: 2, title: 'Black Panther', overview: 'wakanda is about to be wiped out...who would save them', posterPath: '/image2'),
   ];
 
   test('should get searched movies through the query from the repository', () async {
-    when(mockMovieRepository.searchMovies(any)).thenAnswer((realInvocation) async => allMoviesList);
+    when(mockMovieRepository.searchMovies(any)).thenAnswer((realInvocation) async => const Right(allMoviesList));
 
     final result = await usecase(tQuery);
 
-    expect(result, allMoviesList);
+    expect(result,  const Right(allMoviesList));
     verify(mockMovieRepository.searchMovies(any));
     verifyNoMoreInteractions(mockMovieRepository);
   });

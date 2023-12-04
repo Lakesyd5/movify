@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -19,20 +20,20 @@ void main() {
     usecase = GetTrendingMovies(mockMovieRepository);
   });
 
-  final tMoviesList = [
+  const tMoviesList = [
     Movie(id: 1, title: 'Spider-Man', overview: 'testing spiderMan & his people in the testverse', posterPath: '/image1'),
     Movie(id: 2, title: 'Black Panther', overview: 'wakanda is about to be wiped out...who would save them', posterPath: '/image2'),
   ];
 
   test('should get trending movies form the repository', () async{
     // arrange
-    when(mockMovieRepository.getTrendingMovies()).thenAnswer((_) async => tMoviesList);
+    when(mockMovieRepository.getTrendingMovies()).thenAnswer((_) async => const Right(tMoviesList));
 
     // act
     final result = await usecase();
 
     // assert
-    expect(result, tMoviesList);
+    expect(result, const Right(tMoviesList));
     verify(mockMovieRepository.getTrendingMovies());
     verifyNoMoreInteractions(mockMovieRepository);
   });
