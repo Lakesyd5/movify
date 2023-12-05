@@ -15,7 +15,7 @@ void main() {
 
   setUp(() {
     mockHttpClient = MockClient();
-    datasource = MovieRemoteDataSourceImpl(mockHttpClient);
+    datasource = MovieRemoteDataSourceImpl(client: mockHttpClient);
   });
 
   const tQuery = 'spiderman';

@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movify/injection_container.dart';
+import 'package:movify/presentation/bloc/popular_movies/popular_movies_bloc.dart';
+import 'package:movify/presentation/bloc/popular_movies/popular_movies_event.dart';
+import 'package:movify/presentation/bloc/search_movies/search_movies_bloc.dart';
+import 'package:movify/presentation/bloc/trending_movies/trending_movies_bloc.dart';
+import 'package:movify/presentation/bloc/trending_movies/trending_movies_event.dart';
+import 'package:movify/presentation/pages/home_screen.dart';
 
 void main() {
-  runApp(const MainApp());
+  init();
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return MaterialApp(
+      title: 'Movie App',
+      debugShowCheckedModeBanner: false,
+      home:  MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<PopularMoviesBloc>()..add(FetchPopularMovies()),
+          ),
+          BlocProvider(
+            create: (context) => getIt<TrendingMoviesBloc>()..add(FetchTrendingMovies()),
+          ),
+          BlocProvider(
+            create: (context) => getIt<SearchMoviesBloc>(),
+          ),
+        ],
+        child: const HomeScreen(),
       ),
     );
   }

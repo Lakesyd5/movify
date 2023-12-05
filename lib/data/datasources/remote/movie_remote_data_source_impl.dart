@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
   final http.Client client;
 
-  MovieRemoteDataSourceImpl(this.client);
+  MovieRemoteDataSourceImpl({ required this.client});
 
   static const BASE_URL = 'https://api.themoviedb.org/3';
   static const API_KEY = '0e601e6a31985dec986450472c347085';
